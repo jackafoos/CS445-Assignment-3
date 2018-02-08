@@ -11,11 +11,33 @@ public class ArrayQueue<T> implements Queue<T> {
     back = 0;
     capacity = queue.length;
   }
+
+  /*----------------------------------------------------------------------------
+   *On remove, add, if the capacity is filled, this will make room for new data
+   *2 System.arraycopy()s ennsure that the information
+   *is copied in the right order.
+   */
+  public void ensureCapacity(){
+    T[] temp = (T[]) new Object[];
+    System.arraycopy(queue, front, temp, 0, size - front);
+    System.arraycopy(queue, 0, temp, size - front, back);
+    queue = temp;
+    front = 0;
+    back = size;
+  }
+
   /*----------------------------------------------------------------------------
    *removes the front item from the Queue
    *returns the value removed from the Queue
    */
-  public T remove(){}
+  public T remove(){
+    if(size == 0){
+      throw new NullPointerException();
+    }else if(front == back)
+      ensureCapacity();//Write Method!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    front++;
+    size--;
+  }
 
   /*----------------------------------------------------------------------------
    *returns the value in the front of the Queue
