@@ -3,12 +3,16 @@ public class ArrayQueue<T> implements Queue<T> {
   private T[] queue;
   private int front;
   private int back;
+  private int size;
   private int capacity;
 
   public ArrayQueue(){
-    queue = (T[]) new Object[1];
+    @SuppressWarnings("unchecked")
+    T[] obj = (T[]) new Object[1];
+    queue = obj;
     front = 0;
     back = 0;
+    size = 0;
     capacity = queue.length;
   }
 
@@ -18,12 +22,14 @@ public class ArrayQueue<T> implements Queue<T> {
    *is copied in the right order.
    */
   public void ensureCapacity(){
-    T[] temp = (T[]) new Object[];
+    @SuppressWarnings("unchecked")
+    T[] temp = (T[]) new Object[(capacity * 2) + 1];
     System.arraycopy(queue, front, temp, 0, size - front);
     System.arraycopy(queue, 0, temp, size - front, back);
     queue = temp;
     front = 0;
     back = size;
+    capacity = queue.length;
   }
 
   /*----------------------------------------------------------------------------
@@ -31,12 +37,14 @@ public class ArrayQueue<T> implements Queue<T> {
    *returns the value removed from the Queue
    */
   public T remove(){
+    T obj = queue[front];
     if(size == 0){
-      throw new NullPointerException();
+      throw new UnsupportedOperationException();
     }else if(front == back)
       ensureCapacity();//Write Method!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     front++;
     size--;
+    return obj;
   }
 
   /*----------------------------------------------------------------------------
@@ -64,5 +72,7 @@ public class ArrayQueue<T> implements Queue<T> {
   /*----------------------------------------------------------------------------
    *checks if the Queue is empty
    */
-  public boolean isEmpty(){}
+  public boolean isEmpty(){
+    return size == 0;
+  }
 }
