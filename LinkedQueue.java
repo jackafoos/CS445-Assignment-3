@@ -17,10 +17,14 @@ public class LinkedQueue<T> implements Queue<T> {
    *returns the value removed from the Queue
    */
   public T remove(){
-    T obj =  front.value;
-    front  = front.next;
-    size--;
-    return obj;
+    if (size != 0){
+      T obj =  front.value;
+      front = front.next;
+      size--;
+      return obj;
+    }else{
+      throw new UnsupportedOperationException();
+    }
   }
 
   /*----------------------------------------------------------------------------
@@ -33,7 +37,7 @@ public class LinkedQueue<T> implements Queue<T> {
   /*----------------------------------------------------------------------------
    *adds an item to the back of the Queue
    */
-  public void add( T thing){
+  public void add(T thing){
     Node<T> obj = new Node<T>(thing);
      if (size == 0){
        front = obj;
@@ -58,8 +62,8 @@ public class LinkedQueue<T> implements Queue<T> {
  * Node class for linked data
  */
 class Node<T>{
-  private T value = null;
-  private Node<T> next = null;//only a one way link
+  T value = null;
+  Node<T> next = null;//only a one way link
 
   //constructor 1: (no parameters)
   public Node(){
